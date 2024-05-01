@@ -1,12 +1,117 @@
 import numpy
-from anmf import calculate_i_divergence_Dx
+
+from libs.i_divergence_DX_calculator import IDivergenceDxCalculator
 
 
 def test_calculate_i_divergence_Dx():
     matrix_A = numpy.array([[1.0, 2.0]])
     matrix_B = numpy.array([[3.0, 4.0]])
 
-    result = calculate_i_divergence_Dx(matrix_A, matrix_B)
+    result = IDivergenceDxCalculator.calculate(matrix_A, matrix_B)
 
     # Use isclose for tolerance
-    assert numpy.isclose(result, numpy.array([[2.920818754]]))
+    assert numpy.isclose(result, numpy.array([[1.51509335]]))
+
+
+def test_from_failed_case_1():
+    matrix_A = numpy.array(
+        [
+            [0, 1, 1, 1, 0, 0, 0, 0],
+            [1, 0, 1, 1, 0, 0, 0, 0],
+            [1, 1, 0, 1, 0, 0, 0, 0],
+            [1, 1, 1, 0, 1, 1, 1, 1],
+            [0, 0, 0, 1, 0, 1, 1, 1],
+            [0, 0, 0, 1, 1, 0, 1, 1],
+            [0, 0, 0, 1, 1, 1, 0, 1],
+            [0, 0, 0, 1, 1, 1, 1, 0],
+        ]
+    )
+    matrix_B = numpy.array(
+        [
+            [
+                1.04413799,
+                0.84331428,
+                0.20674146,
+                0.8452407,
+                0.89831642,
+                0.92981689,
+                0.513657,
+                0.24246604,
+            ],
+            [
+                0.84331428,
+                0.89420711,
+                0.20759214,
+                0.56106055,
+                0.8639062,
+                0.59571249,
+                0.73646158,
+                0.24289144,
+            ],
+            [
+                0.20674146,
+                0.20759214,
+                0.04867611,
+                0.14418086,
+                0.20424059,
+                0.15451219,
+                0.16300031,
+                0.05697818,
+            ],
+            [
+                0.8452407,
+                0.56106055,
+                0.14418086,
+                0.75363482,
+                0.64823051,
+                0.8413084,
+                0.23227435,
+                0.16942166,
+            ],
+            [
+                0.89831642,
+                0.8639062,
+                0.20424059,
+                0.64823051,
+                0.86270603,
+                0.69914022,
+                0.65074527,
+                0.23916142,
+            ],
+            [
+                0.92981689,
+                0.59571249,
+                0.15451219,
+                0.8413084,
+                0.69914022,
+                0.94114884,
+                0.22308521,
+                0.18162862,
+            ],
+            [
+                0.513657,
+                0.73646158,
+                0.16300031,
+                0.23227435,
+                0.65074527,
+                0.22308521,
+                0.73804865,
+                0.19030281,
+            ],
+            [
+                0.24246604,
+                0.24289144,
+                0.05697818,
+                0.16942166,
+                0.23916142,
+                0.18162862,
+                0.19030281,
+                0.06669753,
+            ],
+        ]
+    )
+
+    result = IDivergenceDxCalculator.calculate(matrix_A, matrix_B)
+
+    # Use isclose for tolerance
+    assert result > 0
