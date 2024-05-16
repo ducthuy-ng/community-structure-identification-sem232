@@ -23,12 +23,8 @@ class IDivergenceDxCalculator:
         Returns:
             numpy.ndarray: _description_
         """
-        # 0 / 0 = 0 (assumption)
-        matrix_a_times_log = numpy.where(
-            matrix_a != 0,
-            matrix_a * numpy.log(numpy.divide(matrix_a, matrix_b, where=matrix_b != 0)),
-            matrix_a,
-        )
-        vectorize_inner_formula = matrix_a_times_log - matrix_a + matrix_b
+        vectorize_inner_formula = matrix_a * numpy.log(matrix_a / matrix_b) - matrix_a + matrix_b
 
-        return numpy.sum(vectorize_inner_formula)
+        # Making sure 0*inf = 0, not NaN
+        inner_formula_with_zeros_filled = numpy.nan_to_num(vectorize_inner_formula, nan=0)
+        return numpy.sum(inner_formula_with_zeros_filled)
