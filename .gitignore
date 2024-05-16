@@ -252,3 +252,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,macos,windows
+
+
+# Don't commit dataset, commit the archive only
+data/spotify_dataset.csv    
